@@ -19,7 +19,7 @@ local user_registration = user_plugin_opts("lsp.server_registration", nil, false
 local skip_setup = user_plugin_opts "lsp.skip_setup"
 
 astronvim.lsp.formatting =
-  astronvim.user_plugin_opts("lsp.formatting", { format_on_save = { enabled = true }, disabled = {} })
+astronvim.user_plugin_opts("lsp.formatting", { format_on_save = { enabled = true }, disabled = {} })
 if type(astronvim.lsp.formatting.format_on_save) == "boolean" then
   astronvim.lsp.formatting.format_on_save = { enabled = astronvim.lsp.formatting.format_on_save }
 end
@@ -108,10 +108,9 @@ astronvim.lsp.on_attach = function(client, bufnr)
     )
     local autoformat = astronvim.lsp.formatting.format_on_save
     local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    if
-      autoformat.enabled
-      and (tbl_isempty(autoformat.allow_filetypes or {}) or tbl_contains(autoformat.allow_filetypes, filetype))
-      and (tbl_isempty(autoformat.ignore_filetypes or {}) or not tbl_contains(autoformat.ignore_filetypes, filetype))
+    if autoformat.enabled
+        and (tbl_isempty(autoformat.allow_filetypes or {}) or tbl_contains(autoformat.allow_filetypes, filetype))
+        and (tbl_isempty(autoformat.ignore_filetypes or {}) or not tbl_contains(autoformat.ignore_filetypes, filetype))
     then
       local autocmd_group = "auto_format_" .. bufnr
       vim.api.nvim_create_augroup(autocmd_group, { clear = true })
@@ -223,7 +222,7 @@ astronvim.lsp.flags = user_plugin_opts "lsp.flags"
 -- @return the table of LSP options used when setting up the given language server
 function astronvim.lsp.server_settings(server_name)
   local server = require("lspconfig")[server_name]
-  local opts = user_plugin_opts( -- get user server-settings
+  local opts = user_plugin_opts(-- get user server-settings
     "lsp.server-settings." .. server_name, -- TODO: RENAME lsp.server-settings to lsp.config in v3
     user_plugin_opts("server-settings." .. server_name, { -- get default server-settings
       capabilities = vim.tbl_deep_extend("force", astronvim.lsp.capabilities, server.capabilities or {}),
